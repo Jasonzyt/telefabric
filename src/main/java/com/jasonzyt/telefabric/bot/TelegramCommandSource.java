@@ -2,22 +2,27 @@ package com.jasonzyt.telefabric.bot;
 
 import net.minecraft.commands.CommandSource;
 import net.minecraft.network.chat.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
+
 import java.util.UUID;
 
 public class TelegramCommandSource implements CommandSource {
 
-    private final StringBuilder feedback = new StringBuilder();
-    private final TelefabricBot bot;
+    private final SendMessage.SendMessageBuilder feedback = SendMessage.builder();
+    private final TelegramClient client;
     private final long chatId;
 
-    public TelegramCommandSource(TelefabricBot bot, long chatId) {
-        this.bot = bot;
+    public TelegramCommandSource(TelegramClient client, long chatId) {
+        this.client = client;
         this.chatId = chatId;
+        feedback.chatId(chatId);
     }
 
     @Override
     public void sendSystemMessage(Component message) {
-        feedback.append(message.getString()).append("\n");
+        feedback.text(message.getString() + '\n');
     }
 
     @Override
@@ -36,9 +41,10 @@ public class TelegramCommandSource implements CommandSource {
     }
 
     public void flush() {
-        if (!feedback.isEmpty()) {
-            bot.sendMessage(chatId, feedback.toString());
-            feedback.setLength(0);
+        try {
+            client.execute(feedback.build());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 }

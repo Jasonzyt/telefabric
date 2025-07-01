@@ -37,11 +37,16 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    implementation 'org.telegram:telegrambots-meta:9.0.0'
-    implementation 'org.telegram:telegrambots-longpolling:9.0.0'
-    implementation 'org.telegram:telegrambots-client:9.0.0'
-    implementation 'org.telegram:telegrambots-webhook:9.0.0'
-    implementation "org.yaml:snakeyaml:2.2"
+    implementation include('org.telegram:telegrambots-meta:9.0.0')
+    implementation include('org.telegram:telegrambots-longpolling:9.0.0')
+    implementation include('org.telegram:telegrambots-client:9.0.0')
+    implementation include('org.telegram:telegrambots-extensions:9.0.0')
+    implementation include('org.telegram:telegrambots-webhook:9.0.0')
+    implementation include("org.yaml:snakeyaml:2.2")
+    implementation include('com.squareup.okhttp3:okhttp:4.12.0')
+    implementation include('org.jetbrains.kotlin:kotlin-stdlib:1.9.22')
+    implementation include('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22')
+    implementation include('com.squareup.okio:okio:3.13.0')
 }
 
 processResources {

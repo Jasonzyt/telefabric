@@ -17,6 +17,15 @@ public class Telefabric implements ModInitializer {
     private TelefabricBot bot;
     private Config config;
 
+    private void startBot() {
+        try (TelegramBotsLongPollingApplication botsApp = new TelegramBotsLongPollingApplication()) {
+            botsApp.registerBot(config.bot.token, new TelefabricBot(config, server));
+            Thread.currentThread().join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onInitialize() {
         this.config = Config.load();
@@ -29,22 +38,9 @@ public class Telefabric implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             Telefabric.server = server;
             this.bot = new TelefabricBot(config, server);
-
-            try(TelegramBotsLongPollingApplication botsApp = new TelegramBotsLongPollingApplication()) {
-                botsApp.registerBot(config.bot.token, new TelefabricBot(config, server));
-                Thread.currentThread().join();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            registerCommands();
+            Thread thread = new Thread(this::startBot);
+            thread.start();
             registerEvents();
-        });
-    }
-
-    private void registerCommands() {
-        bot.registerCommand("hello", message -> {
-            bot.sendMessage(message.getChatId(), "Hello, " + message.getFrom().getFirstName() + "!");
         });
     }
 
