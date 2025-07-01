@@ -4,29 +4,26 @@
   "version": "${version}",
   "name": "TeleFabric",
   "description": "A bridge to connect your fabric server with Telegram bots",
-  "authors": [],
-  "contact": {},
+  "authors": [
+    "JasonZYT"
+  ],
+  "contact": {
+    "sources": "https://github.com/Jasonzyt/telefabric"
+  },
   "license": "MIT",
   "icon": "assets/telefabric/icon.png",
   "environment": "server",
   "entrypoints": {
-    "fabric-datagen": [
-      "com.jasonzyt.telefabric.client.TelefabricDataGenerator"
-    ],
     "main": [
       "com.jasonzyt.telefabric.Telefabric"
     ]
   },
   "mixins": [
-    "telefabric.mixins.json",
-    {
-      "config": "telefabric.client.mixins.json",
-      "environment": "client"
-    }
+    "telefabric.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "fabric": "*",
+    "fabric-api": "*",
     "minecraft": "${minecraft_version}"
   }
 }

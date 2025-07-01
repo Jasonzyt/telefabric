@@ -4,6 +4,7 @@
   "package": "com.jasonzyt.telefabric.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

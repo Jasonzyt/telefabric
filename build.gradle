@@ -16,14 +16,7 @@ loom {
     mods {
         "telefabric" {
             sourceSet sourceSets.main
-            sourceSet sourceSets.client
         }
-    }
-}
-
-fabricApi {
-    configureDataGeneration {
-        client = true
     }
 }
 
@@ -33,15 +26,22 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    mavenCentral()
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    implementation 'org.telegram:telegrambots-meta:9.0.0'
+    implementation 'org.telegram:telegrambots-longpolling:9.0.0'
+    implementation 'org.telegram:telegrambots-client:9.0.0'
+    implementation 'org.telegram:telegrambots-webhook:9.0.0'
+    implementation "org.yaml:snakeyaml:2.2"
 }
 
 processResources {
