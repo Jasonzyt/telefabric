@@ -41,10 +41,9 @@ public class CmdCommand extends BotCommand {
             if (commandConfig.permission.equalsIgnoreCase("users") && !commandConfig.allowed_users.contains(userId)) {
                 builder.text("You do not have permission to use the '" + mcCommand + "' command.");
             }
+            String fullMcCommand = String.join(" ", args);
+            executeMinecraftCommand(fullMcCommand, telegramClient, chat.getId());
         }
-
-        String fullMcCommand = String.join(" ", args);
-        executeMinecraftCommand(fullMcCommand, telegramClient, chat.getId());
 
         try {
             telegramClient.execute(builder.build());
