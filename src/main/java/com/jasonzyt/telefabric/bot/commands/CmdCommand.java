@@ -4,7 +4,6 @@ import com.jasonzyt.telefabric.bot.TelegramCommandSource;
 import com.jasonzyt.telefabric.config.Config;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,24 +13,23 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 
-public class CmdCommand extends BotCommand {
-    private final Config config;
-    private final MinecraftServer server;
+import static com.jasonzyt.telefabric.Telefabric.CONFIG;
+import static com.jasonzyt.telefabric.Telefabric.SERVER;
 
-    public CmdCommand(Config config, MinecraftServer server) {
+public class CmdCommand extends BotCommand {
+
+    public CmdCommand() {
         super("cmd", "Execute Minecraft commands");
-        this.config = config;
-        this.server = server;
     }
 
     @Override
     public void execute(TelegramClient telegramClient, User user, Chat chat, String[] args) {
-        if (!config.chats.contains(chat.getId())) {
+        if (!CONFIG.chats.contains(chat.getId())) {
             return;
         }
 
         String mcCommand = args[0];
-        Config.Command commandConfig = config.features.bot_cmd_command.commands.get(mcCommand);
+        Config.Command commandConfig = CONFIG.features.bot_cmd_command.commands.get(mcCommand);
         var builder = SendMessage.builder().chatId(chat.getId());
 
         if (commandConfig == null) {
@@ -56,18 +54,18 @@ public class CmdCommand extends BotCommand {
         TelegramCommandSource telegramSource = new TelegramCommandSource(client, chatId);
         CommandSourceStack commandSourceStack = new CommandSourceStack(
                 telegramSource,
-                Vec3.atCenterOf(server.overworld().getSharedSpawnPos()), // Position
+                Vec3.atCenterOf(SERVER.overworld().getSharedSpawnPos()), // Position
                 Vec2.ZERO, // Rotation
-                server.overworld(), // World
+                SERVER.overworld(), // World
                 4, // Permission level
                 "TelefabricBot", // Name
                 Component.literal("TelefabricBot"), // Display name
-                server,
+                SERVER,
                 null // Entity
         );
 
-        var parseResults = server.getCommands().getDispatcher().parse(command, commandSourceStack);
-        server.getCommands().performCommand(parseResults, command);
+        var parseResults = SERVER.getCommands().getDispatcher().parse(command, commandSourceStack);
+        SERVER.getCommands().performCommand(parseResults, command);
         telegramSource.flush();
     }
 }

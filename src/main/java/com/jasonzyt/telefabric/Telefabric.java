@@ -13,39 +13,52 @@ import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 public class Telefabric implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Telefabric");
-    private static MinecraftServer server;
-    private TelefabricBot bot;
-    private Config config;
-
-    private void startBot() {
-        try (TelegramBotsLongPollingApplication botsApp = new TelegramBotsLongPollingApplication()) {
-            botsApp.registerBot(config.bot.token, new TelefabricBot(config, server));
-            Thread.currentThread().join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public static MinecraftServer SERVER;
+    public static Config CONFIG;
+    public static TelefabricBot BOT;
 
     @Override
     public void onInitialize() {
-        this.config = Config.load();
+        CONFIG = Config.load();
 
-        if ("your_bot_token".equals(config.bot.token) || "your_bot_username".equals(config.bot.username)) {
-            LOGGER.warn("Bot token or username is not configured in config/telefabric.yml");
-            return;
-        }
 
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            Telefabric.server = server;
-            this.bot = new TelefabricBot(config, server);
-            Thread thread = new Thread(this::startBot);
-            thread.start();
+            Telefabric.SERVER = server;
+            if ("your_bot_token".equals(CONFIG.bot.token) || "your_bot_username".equals(CONFIG.bot.username)) {
+                LOGGER.warn("Bot token or username is not configured in config/telefabric.yml");
+                LOGGER.warn("Bot won't be started");
+            } else {
+                startBot();
+            }
             registerEvents();
         });
     }
 
-    private void registerEvents() {
-        GameEventsHandler eventsHandler = new GameEventsHandler(config, bot);
+    public static void startBot() {
+        BOT = new TelefabricBot();
+        Thread botThread = new Thread(() -> {
+            try (TelegramBotsLongPollingApplication botsApp = new TelegramBotsLongPollingApplication()) {
+                botsApp.registerBot(CONFIG.bot.token, BOT);
+                Thread.currentThread().join();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        botThread.start();
+    }
+
+    public static boolean reloadConfig() {
+        try {
+            CONFIG = Config.load();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static void registerEvents() {
+        GameEventsHandler eventsHandler = new GameEventsHandler();
         eventsHandler.register();
     }
 }

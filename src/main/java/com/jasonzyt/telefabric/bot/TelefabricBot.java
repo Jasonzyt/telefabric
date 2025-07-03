@@ -4,30 +4,26 @@ import com.jasonzyt.telefabric.Telefabric;
 import com.jasonzyt.telefabric.bot.commands.ChatCommand;
 import com.jasonzyt.telefabric.bot.commands.CmdCommand;
 import com.jasonzyt.telefabric.bot.commands.GetIdCommand;
-import com.jasonzyt.telefabric.config.Config;
-import net.minecraft.server.MinecraftServer;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.extensions.bots.commandbot.CommandLongPollingTelegramBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-public class TelefabricBot extends CommandLongPollingTelegramBot {
-    private final Config config;
-    private final MinecraftServer server;
+import static com.jasonzyt.telefabric.Telefabric.CONFIG;
 
-    public TelefabricBot(Config config, MinecraftServer server) {
-        super(new OkHttpTelegramClient(config.bot.token), true, () -> config.bot.username);
-        this.config = config;
-        this.server = server;
-        if (config.features.bot_cmd_command.enabled) {
-            register(new CmdCommand(config, server));
+public class TelefabricBot extends CommandLongPollingTelegramBot {
+
+    public TelefabricBot() {
+        super(new OkHttpTelegramClient(CONFIG.bot.token), true, () -> CONFIG.bot.username);
+        if (CONFIG.features.bot_cmd_command.enabled) {
+            register(new CmdCommand());
         }
-        if (config.features.bot_get_id_command.enabled) {
-            register(new GetIdCommand(config));
+        if (CONFIG.features.bot_get_id_command.enabled) {
+            register(new GetIdCommand());
         }
-        if  (config.features.bot_chat_command.enabled) {
-            register(new ChatCommand(config, server));
+        if  (CONFIG.features.bot_chat_command.enabled) {
+            register(new ChatCommand());
         }
     }
 

@@ -1,27 +1,23 @@
 package com.jasonzyt.telefabric.bot.commands;
 
-import com.jasonzyt.telefabric.config.Config;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+import static com.jasonzyt.telefabric.Telefabric.CONFIG;
+import static com.jasonzyt.telefabric.Telefabric.SERVER;
+
 public class ChatCommand extends BotCommand {
 
-    private final Config config;
-    private final MinecraftServer server;
-
-    public ChatCommand(Config config, MinecraftServer server) {
+    public ChatCommand() {
         super("chat", "Send a message to the game");
-        this.config = config;
-        this.server = server;
     }
 
     @Override
     public void execute(TelegramClient telegramClient, User user, Chat chat, String[] args) {
-        if (!config.chats.contains(chat.getId())) {
+        if (!CONFIG.chats.contains(chat.getId())) {
             return;
         }
 
@@ -35,7 +31,7 @@ public class ChatCommand extends BotCommand {
             senderName += " " + user.getLastName();
         }
 
-        String formattedMessage = config.features.bot_chat_command.format.replace("%name%", senderName).replace("%message%", message);
-        server.sendSystemMessage(Component.literal(formattedMessage));
+        String formattedMessage = CONFIG.features.bot_chat_command.format.replace("%name%", senderName).replace("%message%", message);
+        SERVER.sendSystemMessage(Component.literal(formattedMessage));
     }
 }
