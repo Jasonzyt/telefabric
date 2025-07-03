@@ -11,7 +11,7 @@
     "sources": "https://github.com/Jasonzyt/telefabric"
   },
   "license": "MIT",
-  "icon": "assets/telefabric/icon.png",
+  "icon": "assets/telefabric/telefabric-icon.png",
   "environment": "server",
   "entrypoints": {
     "main": [
