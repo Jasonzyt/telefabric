@@ -1,6 +1,7 @@
 package com.jasonzyt.telefabric.bot;
 
 import com.jasonzyt.telefabric.Telefabric;
+import com.jasonzyt.telefabric.bot.commands.ChatCommand;
 import com.jasonzyt.telefabric.bot.commands.CmdCommand;
 import com.jasonzyt.telefabric.bot.commands.GetIdCommand;
 import com.jasonzyt.telefabric.config.Config;
@@ -19,8 +20,15 @@ public class TelefabricBot extends CommandLongPollingTelegramBot {
         super(new OkHttpTelegramClient(config.bot.token), true, () -> config.bot.username);
         this.config = config;
         this.server = server;
-        register(new CmdCommand(config, server));
-        register(new GetIdCommand(config));
+        if (config.features.bot_cmd_command.enabled) {
+            register(new CmdCommand(config, server));
+        }
+        if (config.features.bot_get_id_command.enabled) {
+            register(new GetIdCommand(config));
+        }
+        if  (config.features.bot_chat_command.enabled) {
+            register(new ChatCommand(config, server));
+        }
     }
 
     @Override

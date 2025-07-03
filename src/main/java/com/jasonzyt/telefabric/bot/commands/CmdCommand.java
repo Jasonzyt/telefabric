@@ -31,7 +31,7 @@ public class CmdCommand extends BotCommand {
         }
 
         String mcCommand = args[0];
-        Config.Command commandConfig = config.commands.get(mcCommand);
+        Config.Command commandConfig = config.features.bot_cmd_command.commands.get(mcCommand);
         var builder = SendMessage.builder().chatId(chat.getId());
 
         if (commandConfig == null) {

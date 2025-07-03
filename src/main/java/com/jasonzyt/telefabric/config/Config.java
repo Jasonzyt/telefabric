@@ -18,7 +18,6 @@ import java.util.Map;
 public class Config {
 
     public Bot bot = new Bot();
-    public Map<String, Command> commands = Collections.singletonMap("whitelist", new Command());
     public List<Long> chats = Collections.singletonList(-1001234567890L);
     public Features features = new Features();
 
@@ -36,6 +35,9 @@ public class Config {
         public ChatForwarding chat_forwarding = new ChatForwarding();
         public JoinLeaveNotifications join_leave_notifications = new JoinLeaveNotifications();
         public DeathNotifications death_notifications = new DeathNotifications();
+        public BotCmdCommand bot_cmd_command = new BotCmdCommand();
+        public BotGetIdCommand bot_get_id_command = new BotGetIdCommand();
+        public BotChatCommand bot_chat_command = new BotChatCommand();
     }
 
     public static class ChatForwarding {
@@ -52,6 +54,20 @@ public class Config {
     public static class DeathNotifications {
         public boolean enabled = true;
         public String format = "%death_message%";
+    }
+
+    public static class BotCmdCommand {
+        public boolean enabled = true;
+        public Map<String, Command> commands = Collections.singletonMap("whitelist", new Command());
+    }
+
+    public static class BotGetIdCommand {
+        public boolean enabled = true;
+    }
+
+    public static class BotChatCommand {
+        public boolean enabled = true;
+        public String format = "<%name%> %message%";
     }
 
     private static final File configFile = new File("config/telefabric.yml");
