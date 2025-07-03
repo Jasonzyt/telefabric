@@ -1,9 +1,11 @@
 package com.jasonzyt.telefabric;
 
 import com.jasonzyt.telefabric.bot.TelefabricBot;
+import com.jasonzyt.telefabric.command.TelefabricCommand;
 import com.jasonzyt.telefabric.config.Config;
 import com.jasonzyt.telefabric.events.GameEventsHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import org.slf4j.Logger;
@@ -32,6 +34,7 @@ public class Telefabric implements ModInitializer {
             }
             registerEvents();
         });
+        CommandRegistrationCallback.EVENT.register(TelefabricCommand.INSTANCE::register);
     }
 
     public static void startBot() {
