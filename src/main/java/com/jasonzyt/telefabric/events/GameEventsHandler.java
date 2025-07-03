@@ -1,7 +1,6 @@
 package com.jasonzyt.telefabric.events;
 
 import com.jasonzyt.telefabric.bot.TelefabricBot;
-import com.jasonzyt.telefabric.bot.TelefabricBot;
 import com.jasonzyt.telefabric.config.Config;
 import com.jasonzyt.telefabric.events.callbacks.PlayerDeathCallback;
 import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;

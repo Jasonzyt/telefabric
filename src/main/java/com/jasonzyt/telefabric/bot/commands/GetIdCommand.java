@@ -1,8 +1,6 @@
 package com.jasonzyt.telefabric.bot.commands;
 
 import com.jasonzyt.telefabric.config.Config;
-import net.minecraft.server.MinecraftServer;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.User;

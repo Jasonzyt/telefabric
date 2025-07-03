@@ -6,17 +6,13 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-import java.util.UUID;
-
 public class TelegramCommandSource implements CommandSource {
 
-    private final SendMessage.SendMessageBuilder feedback = SendMessage.builder();
+    private final SendMessage.SendMessageBuilder<?, ?> feedback = SendMessage.builder();
     private final TelegramClient client;
-    private final long chatId;
 
     public TelegramCommandSource(TelegramClient client, long chatId) {
         this.client = client;
-        this.chatId = chatId;
         feedback.chatId(chatId);
     }
 
