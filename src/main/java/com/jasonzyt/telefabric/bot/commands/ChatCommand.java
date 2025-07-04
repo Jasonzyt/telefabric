@@ -32,6 +32,7 @@ public class ChatCommand extends BotCommand {
         }
 
         String formattedMessage = CONFIG.features.bot_chat_command.format.replace("%name%", senderName).replace("%message%", message);
+        SERVER.getPlayerList().broadcastSystemMessage(Component.literal(formattedMessage), false);
         SERVER.sendSystemMessage(Component.literal(formattedMessage));
     }
 }
