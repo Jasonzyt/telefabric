@@ -24,7 +24,7 @@ public class CmdCommand extends BotCommand {
 
     @Override
     public void execute(TelegramClient telegramClient, User user, Chat chat, String[] args) {
-        if (!CONFIG.chats.contains(chat.getId())) {
+        if (!CONFIG.chats.contains(chat.getId()) || args.length == 0) {
             return;
         }
 
