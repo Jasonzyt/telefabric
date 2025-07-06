@@ -30,6 +30,9 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
+    - name: Calculate SHA256
+      run: sha256sum build/libs/*.jar > $(ls build/libs/*.jar).sha256
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.6.2
       if: ${{ runner.os == 'Linux' }}
@@ -44,4 +47,4 @@ jobs:
         GITHUB_REPOSITORY: Jasonzyt/telefabric
       with:
         body_path: ${{ github.workspace }}/release-notes.md
-        files: ${{ github.workspace }}/build/libs/*.jar
+        files: ${{ github.workspace }}/build/libs/*
